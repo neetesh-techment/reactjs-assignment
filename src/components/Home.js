@@ -10,7 +10,23 @@ class Home extends React.Component {
   }
 
   componentDidMount(){
-    fetch("https://hn.algolia.com/api/v1/search_by_date?tags=story&page=" + this.state.pageNumber)
+    this.callApi(this.state.pageNumber);
+    this.initializeInterval(this.state.pageNumber);
+  }
+
+  initializeInterval(pageNumber){
+    setInterval(() => {
+      this.setState({
+        pageNumber: pageNumber + 1,
+      }, () => {
+        this.callApi(pageNumber);
+      });
+    }, 10000);
+  }
+
+  // Fetch the data from API
+  callApi(pageNumber){
+    fetch("https://hn.algolia.com/api/v1/search_by_date?tags=story&page=" + pageNumber)
     .then(response => response.json())
     .then((response) => {
       let oldAlgoliaData = [...this.state.algoliaData];
