@@ -1,11 +1,13 @@
 import React from 'react';
+import Pagination from "react-js-pagination";
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       pageNumber: 0,
-      algoliaData: []
+      algoliaData: [],
+      activePage: 0
     }
   }
 
@@ -48,9 +50,21 @@ class Home extends React.Component {
     })
   }
 
+  handlePageChange(pageNumber){
+    this.setState({activePage: pageNumber})
+  }
+
   render() {
     return (
       <div>
+        <Pagination
+          activePage={this.state.activePage}
+          itemsCountPerPage={20}
+          totalItemsCount={this.state.algoliaData.length}
+          pageRangeDisplayed={5}
+          onChange={this.handlePageChange.bind(this)}
+        />
+
         {
           this.state.algoliaData.length > 0 ?
             this.state.algoliaData.map((item, index) => {
