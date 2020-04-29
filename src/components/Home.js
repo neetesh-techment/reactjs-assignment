@@ -39,6 +39,15 @@ class Home extends React.Component {
     });
   }
 
+  handleClick(item){
+    this.props.history.push({
+      pathname:'/detail',
+      state:{
+        item: item
+      }
+    })
+  }
+
   render() {
     return (
       <div>
@@ -47,10 +56,12 @@ class Home extends React.Component {
             this.state.algoliaData.map((item, index) => {
               return (
                 <div key={index} >
-                  <p>Title : {item.title} </p>
-                  <p>Created At : {item.created_at} </p>
-                  <p>Author : {item.author} </p>
-                  <p>URL : {item.url} </p>
+                  <div onClick={() => this.handleClick(this.state.algoliaData[index])}>
+                    <p>Title : {item.title} </p>
+                    <p>Created At : {item.created_at} </p>
+                    <p>Author : {item.author} </p>
+                    <p>URL : {item.url} </p>
+                  </div>
                   <hr />
                 </div>
               );
